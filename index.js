@@ -9,7 +9,7 @@ const pool = mysql.createPool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  port: 3307
+  port: 3306
 })
 
 app.use(cors())
@@ -21,20 +21,18 @@ app.get('/gets', function (req, res, next) {
 })
 
 app.get('/attractions', function (req, res, next) {
-  try {
-    pool.query("SELECT * FROM attractions", function (err, rows, fields) {
-      res.json(rows)
-      console.log('query sussessfully')
+  pool.query("SELECT * FROM attractions", function (err, rows, fields) {
+    if (err) {
+      console.error("Error message : ", err.message);
+      return res.status(500).json({
+        message: "Query failed!",
+      });
+    }
+    res.json(rows);
+    console.log('Query successful');
+  });
+});
 
-    })
-
-  } catch (error) {
-    console.error("error message : ", error.message);
-    res.status(500).json({
-      message: "Create user error!",
-    });
-  }
-})
 
 
 app.listen(5000, function () {

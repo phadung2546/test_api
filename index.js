@@ -17,13 +17,15 @@ app.use(cors())
 
 app.get('/gets', function (req, res, next) {
   res.json({ msg: 'Hello World' })
-  console.log('hello world')
+  console.log('hello s')
 })
 
 app.get('/attractions', function (req, res, next) {
   try {
     pool.query("SELECT * FROM attractions", function (err, rows, fields) {
       res.json(rows)
+      console.log('query sussessfully')
+
     })
 
   } catch (error) {
@@ -33,6 +35,7 @@ app.get('/attractions', function (req, res, next) {
     });
   }
 })
+
 
 app.listen(5000, function () {
   console.log("web server listening on port 5000 ")
